@@ -1,5 +1,7 @@
 import { Component,  OnInit, ViewChild, ElementRef, Input, AfterViewInit } from '@angular/core';
 import { HttpService } from '../service/httpservice.service';
+import { GeoService } from '../service/geoService/geoservice.service';
+
 
 declare var H: any;
 
@@ -20,11 +22,13 @@ export class Tab2Page {
   @ViewChild("map")
   public mapElement: ElementRef;
 
-  constructor( public httpService: HttpService) {}
+  constructor( public httpService: HttpService,
+    public geoService: GeoService) {}
 
   ngOnInit() {
     // this.get();
     //console.log(this.title);
+    this.geoService.getCurrentPostion();
   }
 
 public view() {
@@ -41,7 +45,7 @@ public view() {
     defaultLayers.normal.map,
     {
         zoom: 10,
-        center: { lat: 52.51, lng: 13.4 }
+        center: { lat: this.geoService.latitude, lng: this.geoService.longitude  }
     }
   );
 

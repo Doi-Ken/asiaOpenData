@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../service/httpservice.service';
 import { Observable } from 'rxjs';
+import { GeoService } from '../service/geoService/geoservice.service';
+
 
 @Component({
   selector: 'app-tab1',
@@ -15,13 +17,15 @@ export class Tab1Page implements OnInit {
   // https://weather.api.here.com/weather/1.0/report.json?app_id=AnI4sryhVIB0pHljSuiK&app_code=Yhsj4Y4hKqfG1M71Y7OR8Q&product=observation&name=Tokyo  
   private post_url = 'http://httpbin.org/post';
 
-  constructor( public httpService: HttpService){
+  constructor( public httpService: HttpService,
+    public geoService: GeoService){
 
   }
 
   ngOnInit() {
     this.get();
     console.log(this.title);
+    this.geoService.getCurrentPostion();
   }
   
   async get() {

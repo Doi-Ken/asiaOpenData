@@ -1,6 +1,6 @@
 import { Component,  OnInit, ViewChild, ElementRef, Input, AfterViewInit } from '@angular/core';
 import { HttpService } from '../service/httpservice.service';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { GeoService } from '../service/geoService/geoservice.service';
 
 declare var H: any;
 
@@ -17,30 +17,21 @@ export class Tab3Page implements OnInit {
   private post_url = 'http://httpbin.org/post';
 
   public buttonFlag = true;
-  private latitude;
-  private longitude;
+
 
   @ViewChild("map")
   public mapElement: ElementRef;
 
   constructor( public httpService: HttpService,
-    private geolocation: Geolocation) {}
+    public geoService: GeoService) {}
 
   ngOnInit() {
     // this.get();
     //console.log(this.title);
-    this.getCurrentPostion();
-     
+    this.geoService.getCurrentPostion();
   }
 
-  async getCurrentPostion(){
-    await this.geolocation.getCurrentPosition().then((resp) => {
-      this.latitude = resp.coords.latitude;
-      this.longitude = resp.coords.longitude;
-     }).catch((error) => {
-       console.log('Error getting location', error);
-     });
-  }
+  
 
 public view() {
   let platform = new H.service.Platform({
@@ -54,7 +45,7 @@ public view() {
       defaultLayers.normal.map,
       {
           zoom: 10,
-          center: { lat: this.latitude, lng: this.longitude }
+          center: { lat: this.geoService.latitude, lng: this.geoService.longitude }
       }
   );
   let behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
@@ -72,7 +63,6 @@ public view() {
   onClick(){
     //this.get();
     //console.log(this.title);
-    
     this.view();
   }
 
