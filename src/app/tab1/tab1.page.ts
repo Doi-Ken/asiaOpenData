@@ -26,6 +26,10 @@ export class Tab1Page implements OnInit {
     this.get();
     console.log(this.title);
     this.geoService.getCurrentPostion();
+    this.geoService.geolocation.watchPosition().subscribe((data) => {
+      this.geoService.latitude = data.coords.latitude;
+      this.geoService.longitude = data.coords.longitude;
+     });
   }
   
   async get() {
