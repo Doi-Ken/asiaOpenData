@@ -19,6 +19,15 @@ export class HttpService {
         .catch(this.handlerError);
    }
 
+   async urlencoded_get(url: string): Promise<any[]>{
+    let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(url, options).toPromise()
+    .then(this.extractData)
+    .catch(this.handlerError);
+}
+
     // 登録
     async post(url: string, jsondata: string): Promise<any[]> {
         let headers = new Headers({'Content-Type': 'application/json'});
