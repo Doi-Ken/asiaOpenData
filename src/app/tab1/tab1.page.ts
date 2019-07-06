@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../service/httpservice.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-tab1',
