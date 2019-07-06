@@ -8,9 +8,8 @@ import { HttpService } from '../service/httpservice.service';
 })
 export class Tab1Page implements OnInit {
 
-  public title = 'doiken';
-  public title2;
-  private get_url = 'https://httpbin.org/get?show_env=1';
+  public title;
+  private get_url = 'https://weather.api.here.com/weather/1.0/report.json?app_id=AnI4sryhVIB0pHljSuiK&app_code=Yhsj4Y4hKqfG1M71Y7OR8Q&product=observation&name=Tokyo';
   private post_url = 'http://httpbin.org/post';
 
   constructor( public httpService: HttpService){
@@ -23,19 +22,12 @@ export class Tab1Page implements OnInit {
   }
   
   async get() {
-    return await this.httpService.get(this.get_url).then(res => {this.title = res['args']; });
+    return await this.httpService.urlencoded_get(this.get_url).then(res => {this.title = res; });
   }
-
-  async post() {
-    return await this.httpService.post(this.post_url, JSON.stringify({'doiken': {'doiken': { 'doiken': 'god' } } })).then(res => {this.title2 = res['data']; });
-  }
-  
 
   onClick(){
     this.get();
     console.log(this.title);
-    this.post();
-    console.log(this.title2);
   }
 
 }
