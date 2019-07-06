@@ -1,2 +1,6 @@
 # asiaOpenData
-# test
+
+# こちらを行ってください
+ionic cordova plugin add cordova-plugin-geolocation
+npm install @ionic-native/geolocation
+

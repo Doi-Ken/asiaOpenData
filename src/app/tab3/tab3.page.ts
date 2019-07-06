@@ -1,5 +1,6 @@
 import { Component,  OnInit, ViewChild, ElementRef, Input, AfterViewInit } from '@angular/core';
 import { HttpService } from '../service/httpservice.service';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 declare var H: any;
 
@@ -16,15 +17,29 @@ export class Tab3Page implements OnInit {
   private post_url = 'http://httpbin.org/post';
 
   public buttonFlag = true;
+  private latitude;
+  private longitude;
 
   @ViewChild("map")
   public mapElement: ElementRef;
 
-  constructor( public httpService: HttpService) {}
+  constructor( public httpService: HttpService,
+    private geolocation: Geolocation) {}
 
   ngOnInit() {
     // this.get();
     //console.log(this.title);
+    this.getCurrentPostion();
+     
+  }
+
+  async getCurrentPostion(){
+    await this.geolocation.getCurrentPosition().then((resp) => {
+      this.latitude = resp.coords.latitude;
+      this.longitude = resp.coords.longitude;
+     }).catch((error) => {
+       console.log('Error getting location', error);
+     });
   }
 
 public view() {
@@ -39,7 +54,7 @@ public view() {
       defaultLayers.normal.map,
       {
           zoom: 10,
-          center: { lat: "37.7397", lng: "-121.4252" }
+          center: { lat: this.latitude, lng: this.longitude }
       }
   );
   let behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
@@ -57,8 +72,25 @@ public view() {
   onClick(){
     //this.get();
     //console.log(this.title);
+    
     this.view();
   }
 
+/*
+  // 現在地取得
+  this.geolocation.getCurrentPosition().then((resp) => {
+    // resp.coords.latitude
+    // resp.coords.longitude
+   }).catch((error) => {
+     console.log('Error getting location', error);
+   });
+   
+   let watch = this.geolocation.watchPosition();
+   watch.subscribe((data) => {
+    // data can be a set of coordinates, or an error (if an error occurred).
+    // data.coords.latitude
+    // data.coords.longitude
+   });
+*/
 
 }
