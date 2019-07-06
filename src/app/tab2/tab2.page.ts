@@ -45,11 +45,16 @@ public view() {
     }
   );
 
+  // parameters you have to edit
+  // waypoint0: start point
+  // waypoint1: end point
+  // avoidareas: areas you want to avoid
   var routingParameters = {
-    'mode': 'fastest;car',
-    'waypoint0': 'geo!50.1120423728813,8.68340740740811',
-    'waypoint1': 'geo!52.5309916298853,13.3846220493377',
-    'representation': 'display'
+    'mode': 'fastest;car;traffic:disabled',
+    'waypoint0': 'geo!52.5184443440238,13.383906494396967',
+    'waypoint1': 'geo!52.51435421904425,13.396947378094524',
+    'representation': 'display',
+    'avoidareas': '52.51623131288022,13.389888672738778;52.51335487996589,13.395274548440511!52.52006148651319,13.385160024545286;52.517760038213815,13.389707563495335'
   };
   
   var onResult = function(result) {
@@ -73,7 +78,9 @@ public view() {
       endPoint = route.waypoint[1].mappedPosition;
     
       var routeLine = new H.map.Polyline(linestring, {
-        style: { strokeColor: 'blue', lineWidth: 10 }
+        // style: { strokeColor: 'blue', lineWidth: 10 }
+        style: { lineWidth: 10 },
+        arrows: { fillColor: 'white', frequency: 2, width: 0.8, length: 0.7 }
       });
     
       var startMarker = new H.map.Marker({
@@ -99,6 +106,7 @@ public view() {
       alert(error.message);
     });
 
+  let behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));  
   this.buttonFlag = false;
 }
   async get() {
