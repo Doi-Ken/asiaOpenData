@@ -114,18 +114,20 @@ export class Tab3Page implements OnInit {
     // Attach an event listener to map display
     // obtain the coordinates and display in an alert box.
 
-    map.addEventListener('tap', function (evt) {
-      var coord = map.screenToGeo(evt.currentPointer.viewportX,
+    map.addEventListener('tap', (evt) => {
+      let coord = map.screenToGeo(evt.currentPointer.viewportX,
               evt.currentPointer.viewportY);
+              
               this.selectedLatitude = coord.lat;
               this.selectedLongitude = coord.lng;
-              console.log(this.selectedLatitude);
-              console.log(this.selectedLongitude);
+              console.log("aaa" + this.selectedLatitude);
+              console.log("aaa" + this.selectedLongitude);
 
-      alert('Clicked at ' + Math.abs(coord.lat.toFixed(4)) +
-          ((coord.lat > 0) ? 'N' : 'S') +
-          ' ' + Math.abs(coord.lng.toFixed(4)) +
-           ((coord.lng > 0) ? 'E' : 'W'));
+      // alert('Clicked at ' + Math.abs(coord.lat.toFixed(4)) +
+      //     ((coord.lat > 0) ? 'N' : 'S') +
+      //     ' ' + Math.abs(coord.lng.toFixed(4)) +
+      //      ((coord.lng > 0) ? 'E' : 'W'));
+      this.presentAlertPrompt();
     });
 
   }
@@ -148,15 +150,20 @@ export class Tab3Page implements OnInit {
       header: 'Prompt!',
       inputs: [
         {
-          name: 'name1',
+          name: 'name',
           type: 'text',
-          placeholder: 'Placeholder 1'
+          placeholder: 'Your Name'
         },
+        // {
+        //   name: 'comment',
+        //   type: 'date',
+        //   min: '2017-03-01',
+        //   max: '2018-01-12'
+        // }
         {
-          name: 'name4',
-          type: 'date',
-          min: '2017-03-01',
-          max: '2018-01-12'
+          name: 'comment',
+          type: 'text',
+          placeholder: 'yourcomment'
         }
       ],
       buttons: [
@@ -173,7 +180,7 @@ export class Tab3Page implements OnInit {
             console.log('Confirm Ok');
             console.log(this.selectedLatitude);
             console.log(this.selectedLongitude);
-            //this.addMarkersToMap(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude));
+            this.addMarkersToMap(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude));
           }
         }
       ]
