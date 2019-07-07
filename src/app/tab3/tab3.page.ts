@@ -3,6 +3,7 @@ import { HttpService } from '../service/httpservice.service';
 import { GeoService } from '../service/geoService/geoservice.service';
 import { AuthService } from '../service/auth/auth.service';
 import { NavController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 
 declare var H: any;
@@ -23,6 +24,8 @@ export class Tab3Page implements OnInit {
 
   public map;
 
+  public selectedLatitude;
+  public selectedLongitude;
 
   @ViewChild("map")
   public mapElement: ElementRef;
@@ -31,7 +34,8 @@ export class Tab3Page implements OnInit {
     private navCtrl: NavController,
     public httpService: HttpService,
     public geoService: GeoService,
-    public authService: AuthService) {}
+    public authService: AuthService,
+    public alertController: AlertController) {}
 
   ngOnInit() {
     // this.get();
@@ -102,25 +106,28 @@ export class Tab3Page implements OnInit {
   }
   
   testClick(){
-    this.addMarkersToMap(this.map, 48.8567, 2.3508);
+    this.presentAlertPrompt();
   }
 
 
   setUpClickListener(map) {
     // Attach an event listener to map display
     // obtain the coordinates and display in an alert box.
-    let lat;
-    let long;
+
     map.addEventListener('tap', function (evt) {
       var coord = map.screenToGeo(evt.currentPointer.viewportX,
               evt.currentPointer.viewportY);
-              lat = coord.lat;
-              long = coord.long;
+              this.selectedLatitude = coord.lat;
+              this.selectedLongitude = coord.lng;
+              console.log(this.selectedLatitude);
+              console.log(this.selectedLongitude);
+
       alert('Clicked at ' + Math.abs(coord.lat.toFixed(4)) +
           ((coord.lat > 0) ? 'N' : 'S') +
           ' ' + Math.abs(coord.lng.toFixed(4)) +
            ((coord.lng > 0) ? 'E' : 'W'));
     });
+
   }
 
   ngDoCheck(){
@@ -133,6 +140,46 @@ export class Tab3Page implements OnInit {
   addMarkersToMap(map, latitude, longitude) {
     var placeMarker = new H.map.Marker({lat: latitude, lng: longitude});
     map.addObject(placeMarker);
+  }
+
+
+  async presentAlertPrompt() {
+    const alert = await this.alertController.create({
+      header: 'Prompt!',
+      inputs: [
+        {
+          name: 'name1',
+          type: 'text',
+          placeholder: 'Placeholder 1'
+        },
+        {
+          name: 'name4',
+          type: 'date',
+          min: '2017-03-01',
+          max: '2018-01-12'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Ok',
+          handler: () => {
+            console.log('Confirm Ok');
+            console.log(this.selectedLatitude);
+            console.log(this.selectedLongitude);
+            //this.addMarkersToMap(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude));
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
 }

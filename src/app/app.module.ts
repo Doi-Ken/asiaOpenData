@@ -14,17 +14,21 @@ import { GeoService } from './service/geoService/geoservice.service';
 import { AuthService } from './service/auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { MessageWebDTO } from './service/messageService/message.webdto';
+import { MessageManagerService } from './service/messageService/messagemanager.service';
+import { AlertController } from '@ionic/angular';
 
 import * as firebase from 'firebase';
 import { ReactiveFormsModule } from '@angular/forms';
 firebase.initializeApp(environment.firebase);
+
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
     AngularFireAuthModule, ReactiveFormsModule,
-    HttpModule,  ],
+    HttpModule ],
   providers: [
     HttpService,
     StatusBar,
@@ -33,6 +37,9 @@ firebase.initializeApp(environment.firebase);
     Geolocation,
     GeoService,
     AuthService,
+    MessageWebDTO,
+    MessageManagerService,
+    AlertController
   ],
   bootstrap: [AppComponent]
 })
