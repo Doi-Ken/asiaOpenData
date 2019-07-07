@@ -20,7 +20,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild([{ path: '', component: LoginPage }])
   ],
   declarations: [LoginPage]
 })

@@ -1,18 +1,14 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Tab Three
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-    <div *ngIf="buttonFlag==true">
-      <button ion-button (click)="onClick()">Desplay</button>
+    <div *ngIf="authService.logined">
+      <div *ngIf="buttonFlag==true">
+        <ion-button ion-button (click)="onClick()">Desplay</ion-button>
+      </div>
+      <ion-button (click)="testClick()">testButton</ion-button>
+      lat: {{ geoService.latitude }}, lon: {{ geoService.longitude }}
     </div>
-    <button ion-button (click)="testClick()">testButton</button>
-    lat: {{ geoService.latitude }}, lon: {{ geoService.longitude }}
+    <div *ngIf="!authService.logined">
+      <ion-button (click)="loginClick()">Login</ion-button>
+    </div>
     <div #map style="width: 100%; height: 100%"></div>
-
   </ion-content>
   
