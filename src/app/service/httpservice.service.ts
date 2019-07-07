@@ -29,13 +29,22 @@ export class HttpService {
 }
 
     // 登録
-    async post(url: string, jsondata: string): Promise<any[]> {
+    async post(url: string, jsondata: string): Promise<any> {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({ headers: headers });
 
         return this.http.post(url, jsondata).toPromise()
                 .then(this.extractData)
                 .catch(this.handlerError);
+    }
+
+    async put(url: string, id: number, jsondata: string): Promise<any>{
+        let headers = new Headers({'Content-Type': 'application/json'});
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.put(url + "/" + id, jsondata, options).toPromise()
+        .then(this.extractData)
+        .catch(this.handlerError);
     }
 
     private extractData(res: Response){

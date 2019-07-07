@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class CommentData {
+export class MessageData {
   id: number;
   river_name: string;
   image_url: string;
