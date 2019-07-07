@@ -4,6 +4,8 @@ import * as firebase from 'firebase/app';
 @Injectable()
 export class AuthService {
 
+  public logined = false;
+
   constructor() { }
   registerUser(value){
     return new Promise<any>((resolve, reject) => {

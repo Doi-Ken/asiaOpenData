@@ -1,6 +1,9 @@
 import { Component,  OnInit, ViewChild, ElementRef, Input, AfterViewInit } from '@angular/core';
 import { HttpService } from '../service/httpservice.service';
 import { GeoService } from '../service/geoService/geoservice.service';
+import { AuthService } from '../service/auth/auth.service';
+import { NavController } from '@ionic/angular';
+
 
 declare var H: any;
 
@@ -24,19 +27,32 @@ export class Tab3Page implements OnInit {
   @ViewChild("map")
   public mapElement: ElementRef;
 
-  constructor( public httpService: HttpService,
-    public geoService: GeoService) {}
+  constructor( 
+    private navCtrl: NavController,
+    public httpService: HttpService,
+    public geoService: GeoService,
+    public authService: AuthService) {}
 
   ngOnInit() {
     // this.get();
     //console.log(this.title);
     this.geoService.getCurrentPostion();
+    
+    // console.log(!this.authService.userDetails());
+    // if(!this.authService.userDetails()){
+    //   console.log("doikne")
+    //   this.navCtrl.navigateForward('tabs/login');
+    // }
+
     this.geoService.geolocation.watchPosition().subscribe((data) => {
       this.geoService.latitude = data.coords.latitude;
       this.geoService.longitude = data.coords.longitude;
      });
   }
 
+  loginClick(){
+    this.navCtrl.navigateForward('tabs/login');
+  }
   
 
   public view() {

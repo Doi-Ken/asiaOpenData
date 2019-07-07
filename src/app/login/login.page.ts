@@ -53,14 +53,15 @@ export class LoginPage implements OnInit {
     .then(res => {
       console.log(res);
       this.errorMessage = "";
-      this.navCtrl.navigateForward('/tabs');
+      this.authService.logined = true;
+      this.navCtrl.navigateForward('/tabs/tab3');
     }, err => {
       this.errorMessage = err.message;
     })
   }
 
   goToRegisterPage(){
-    this.navCtrl.navigateForward('/register');
+    this.navCtrl.navigateForward('/tabs/register');
   }
 
 }
