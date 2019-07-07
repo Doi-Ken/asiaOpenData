@@ -18,6 +18,8 @@ export class Tab3Page implements OnInit {
 
   public buttonFlag = true;
 
+  public map;
+
 
   @ViewChild("map")
   public mapElement: ElementRef;
@@ -29,18 +31,36 @@ export class Tab3Page implements OnInit {
     // this.get();
     //console.log(this.title);
     this.geoService.getCurrentPostion();
+    this.geoService.geolocation.watchPosition().subscribe((data) => {
+      this.geoService.latitude = data.coords.latitude;
+      this.geoService.longitude = data.coords.longitude;
+     });
   }
 
   
 
-public view() {
-  let platform = new H.service.Platform({
+  public view() {
+    
+    this.createMap();
+    
+    console.log(this.mapElement.nativeElement);
+    
+    let behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
+    this.buttonFlag = false;
+  
+    this.addMarkersToMap(this.map, this.geoService.latitude, this.geoService.longitude);
+
+    this.setUpClickListener(this.map);
+  }
+
+  createMap(){
+    let platform = new H.service.Platform({
       "app_id": "AfyVgpuzF8PR8NADOtXZ",
       "app_code": "pA1x_lKGluG9gyAfmFAMpQ"
-  });
-  let defaultLayers = platform.createDefaultLayers();
-  console.log(this.mapElement.nativeElement);
-  let map = new H.Map(
+    });
+
+    let defaultLayers = platform.createDefaultLayers();
+    this.map = new H.Map(
       this.mapElement.nativeElement,
       defaultLayers.normal.map,
       {
@@ -48,9 +68,8 @@ public view() {
           center: { lat: this.geoService.latitude, lng: this.geoService.longitude }
       }
   );
-  let behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-  this.buttonFlag = false;
-}
+  }
+
   async get() {
     return await this.httpService.get(this.get_url).then(res => {this.title = res['args']; });
   }
@@ -65,22 +84,39 @@ public view() {
     //console.log(this.title);
     this.view();
   }
+  
+  testClick(){
+    this.addMarkersToMap(this.map, 48.8567, 2.3508);
+  }
 
-/*
-  // 現在地取得
-  this.geolocation.getCurrentPosition().then((resp) => {
-    // resp.coords.latitude
-    // resp.coords.longitude
-   }).catch((error) => {
-     console.log('Error getting location', error);
-   });
-   
-   let watch = this.geolocation.watchPosition();
-   watch.subscribe((data) => {
-    // data can be a set of coordinates, or an error (if an error occurred).
-    // data.coords.latitude
-    // data.coords.longitude
-   });
-*/
+
+  setUpClickListener(map) {
+    // Attach an event listener to map display
+    // obtain the coordinates and display in an alert box.
+    let lat;
+    let long;
+    map.addEventListener('tap', function (evt) {
+      var coord = map.screenToGeo(evt.currentPointer.viewportX,
+              evt.currentPointer.viewportY);
+              lat = coord.lat;
+              long = coord.long;
+      alert('Clicked at ' + Math.abs(coord.lat.toFixed(4)) +
+          ((coord.lat > 0) ? 'N' : 'S') +
+          ' ' + Math.abs(coord.lng.toFixed(4)) +
+           ((coord.lng > 0) ? 'E' : 'W'));
+    });
+  }
+
+  ngDoCheck(){
+    console.log("lat: " + this.geoService.latitude);
+    console.log("long:" + this.geoService.longitude);
+  }
+
+
+  
+  addMarkersToMap(map, latitude, longitude) {
+    var placeMarker = new H.map.Marker({lat: latitude, lng: longitude});
+    map.addObject(placeMarker);
+  }
 
 }
