@@ -3,8 +3,6 @@
       <div *ngIf="buttonFlag==true">
         <ion-button ion-button (click)="onClick()">Desplay</ion-button>
       </div>
-      <ion-button (click)="testClick()">testButton</ion-button>
-      lat: {{ geoService.latitude }}, lon: {{ geoService.longitude }}
     </div>
     <div *ngIf="!authService.logined">
       <ion-button (click)="loginClick()">Login</ion-button>

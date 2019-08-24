@@ -17,6 +17,11 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { MessageWebDTO } from './service/messageService/message.webdto';
 import { MessageManagerService } from './service/messageService/messagemanager.service';
 import { AlertController } from '@ionic/angular';
+import { UserinputWebDTO } from './service/userinputService/userinput.webdto';
+import { OfficialinputWebDTO } from './service/officialinputService/officialinput.webdto';
+import { UserinputData} from './dto/userinput.data';
+import { OfficialinputData } from './dto/officialinput.data';
+
 
 import * as firebase from 'firebase';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -39,7 +44,11 @@ firebase.initializeApp(environment.firebase);
     AuthService,
     MessageWebDTO,
     MessageManagerService,
-    AlertController
+    AlertController,
+    UserinputData,
+    UserinputWebDTO,
+    OfficialinputData,
+    OfficialinputWebDTO
   ],
   bootstrap: [AppComponent]
 })
