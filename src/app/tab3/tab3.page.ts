@@ -4,6 +4,11 @@ import { GeoService } from '../service/geoService/geoservice.service';
 import { AuthService } from '../service/auth/auth.service';
 import { NavController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+import { UserinputWebDTO } from '../service/userinputService/userinput.webdto';
+import { OfficialinputWebDTO } from '../service/officialinputService/officialinput.webdto';
+import { UserinputData} from '../dto/userinput.data';
+import { OfficialinputData } from '../dto/officialinput.data';
+
 
 
 declare var H: any;
@@ -35,19 +40,15 @@ export class Tab3Page implements OnInit {
     public httpService: HttpService,
     public geoService: GeoService,
     public authService: AuthService,
-    public alertController: AlertController) {}
+    public alertController: AlertController,
+    public userinputWebDto: UserinputWebDTO,
+    public officialinputWebdto: OfficialinputWebDTO) {}
 
   ngOnInit() {
     // this.get();
-    //console.log(this.title);
+
     this.geoService.getCurrentPostion();
     
-    // console.log(!this.authService.userDetails());
-    // if(!this.authService.userDetails()){
-    //   console.log("doikne")
-    //   this.navCtrl.navigateForward('tabs/login');
-    // }
-
     this.geoService.geolocation.watchPosition().subscribe((data) => {
       this.geoService.latitude = data.coords.latitude;
       this.geoService.longitude = data.coords.longitude;
@@ -146,26 +147,27 @@ export class Tab3Page implements OnInit {
 
 
   async presentAlertPrompt() {
+    let radioOptions = [];
+    
+    radioOptions.push({type: 'radio', label: '1. 危険場所の公開', value: 'DangerousArea', checked: true});
+    radioOptions.push({type: 'radio', label: '2. 支援物資の要求', value: 'SupportSupplies', checked: false});
+    radioOptions.push({type: 'radio', label: '3. 救助要請の要求', value: 'CallforHelp', checked: false});
+    
     const alert = await this.alertController.create({
       header: 'Prompt!',
-      inputs: [
-        {
-          name: 'name',
-          type: 'text',
-          placeholder: 'Your Name'
-        },
-        // {
-        //   name: 'comment',
-        //   type: 'date',
-        //   min: '2017-03-01',
-        //   max: '2018-01-12'
-        // }
-        {
-          name: 'comment',
-          type: 'text',
-          placeholder: 'yourcomment'
-        }
-      ],
+      // inputs: [
+      //   {
+      //     name: 'name',
+      //     type: 'text',
+      //     placeholder: 'Your Name'
+      //   },
+      //   {
+      //     name: 'comment',
+      //     type: 'text',
+      //     placeholder: 'yourcomment'
+      //   }
+      // ],
+      inputs: radioOptions,
       buttons: [
         {
           text: 'Cancel',
@@ -176,10 +178,19 @@ export class Tab3Page implements OnInit {
           }
         }, {
           text: 'Ok',
-          handler: () => {
+          handler: (data) => {
             console.log('Confirm Ok');
             console.log(this.selectedLatitude);
             console.log(this.selectedLongitude);
+            let userinputData = new UserinputData(
+              this.userinputWebDto.id,
+              data,
+              parseFloat(this.selectedLatitude),
+              parseFloat(this.selectedLongitude)
+            );
+            this.userinputWebDto.id++;
+            this.userinputWebDto.userinputData.push(userinputData);
+            console.log(data);
             this.addMarkersToMap(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude));
           }
         }
