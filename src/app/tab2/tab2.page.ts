@@ -3,6 +3,7 @@ import { HttpService } from '../service/httpservice.service';
 import { GeoService } from '../service/geoService/geoservice.service';
 
 
+
 declare var H: any;
 
 @Component({
@@ -22,7 +23,8 @@ export class Tab2Page {
   @ViewChild("map")
   public mapElement: ElementRef;
 
-  constructor( public httpService: HttpService,
+  constructor(
+    public httpService: HttpService,
     public geoService: GeoService) {}
 
   ngOnInit() {
@@ -59,11 +61,13 @@ public view() {
   // avoidareas: areas you want to avoid
   var routingParameters = {
     'mode': 'fastest;car;traffic:disabled',
-    'waypoint0': 'geo!52.5184443440238,13.383906494396967',
-    'waypoint1': 'geo!52.51435421904425,13.396947378094524',
+    'waypoint0': 'geo!25.12857100000000,121.50709700000000',
+    'waypoint1': 'geo!25.13810500000000,121.49287900000000',
     'representation': 'display',
-    'avoidareas': '52.51623131288022,13.389888672738778;52.51335487996589,13.395274548440511!52.52006148651319,13.385160024545286;52.517760038213815,13.389707563495335'
+    'avoidareas': '25.13107800000000,121.50459900000000;25.12880700000000,121.50676200000000'
   };
+
+  
   
   var onResult = function(result) {
     var route,
@@ -104,6 +108,16 @@ public view() {
       map.addObjects([routeLine, startMarker, endMarker]);
     
       map.setViewBounds(routeLine.getBounds());
+
+      var icon = new H.map.Icon('../../assets/marks/warning.svg');
+      var coords = {lat: 25.13107800000000, lng: 121.50459900000000};
+      var marker = new H.map.Marker(coords, {icon: icon});
+      map.addObject(marker);
+
+      var icon2 = new H.map.Icon('../../assets/marks/batsu.svg');
+      var _coords = {lat: 25.13557500000000, lng: 121.50180000000000};
+      var _marker = new H.map.Marker(_coords, {icon: icon2});
+      map.addObject(_marker);
     }
   };
 
@@ -127,8 +141,6 @@ public view() {
   
 
   onClick(){
-    //this.get();
-    //console.log(this.title);
     this.view();
   }
 
