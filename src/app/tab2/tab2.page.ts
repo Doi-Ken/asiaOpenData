@@ -109,12 +109,13 @@ public view() {
     
       map.setViewBounds(routeLine.getBounds());
 
-      var icon = new H.map.Icon('../../assets/marks/batsu.svg');
+      var icon = new H.map.Icon('../../assets/marks/warning.svg');
       var coords = {lat: 25.13107800000000, lng: 121.50459900000000};
       var marker = new H.map.Marker(coords, {icon: icon});
       map.addObject(marker);
 
-      var icon2 = new H.map.Icon('../../assets/marks/warning.svg');
+      var icon2 = new H.map.Icon('../../assets/marks/batsu.svg');
+
       var _coords = {lat: 25.13557500000000, lng: 121.50180000000000};
       var _marker = new H.map.Marker(_coords, {icon: icon2});
       map.addObject(_marker);
