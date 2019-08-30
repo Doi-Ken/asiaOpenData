@@ -114,8 +114,9 @@ public view() {
       var marker = new H.map.Marker(coords, {icon: icon});
       map.addObject(marker);
 
+      var icon2 = new H.map.Icon('../../assets/marks/warning.svg');
       var _coords = {lat: 25.13557500000000, lng: 121.50180000000000};
-      var _marker = new H.map.Marker(_coords, {icon: icon});
+      var _marker = new H.map.Marker(_coords, {icon: icon2});
       map.addObject(_marker);
     }
   };
