@@ -280,12 +280,12 @@ export class Tab3Page implements OnInit {
   async presentAlertPrompt() {
     let radioOptions = [];
     
-    radioOptions.push({type: 'radio', label: '1. 危険場所の公開', value: 'DangerousArea', checked: true});
-    radioOptions.push({type: 'radio', label: '2. 支援物資の要求', value: 'SupportSupplies', checked: false});
-    radioOptions.push({type: 'radio', label: '3. 救助要請の要求', value: 'CallforHelp', checked: false});
+    radioOptions.push({type: 'radio', label: '1. Dangerous Area', value: 'DangerousArea', checked: true});
+    radioOptions.push({type: 'radio', label: '2. Suport Supplies', value: 'SupportSupplies', checked: false});
+    radioOptions.push({type: 'radio', label: '3. Help me !!', value: 'CallforHelp', checked: false});
     
     const alert = await this.alertController.create({
-      header: 'Prompt!',
+      header: 'Select your request',
       // inputs: [
       //   {
       //     name: 'name',
