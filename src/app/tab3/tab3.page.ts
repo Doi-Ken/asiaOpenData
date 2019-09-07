@@ -283,6 +283,7 @@ export class Tab3Page implements OnInit {
     radioOptions.push({type: 'radio', label: '1. Dangerous Area', value: 'DangerousArea', checked: true});
     radioOptions.push({type: 'radio', label: '2. Suport Supplies', value: 'SupportSupplies', checked: false});
     radioOptions.push({type: 'radio', label: '3. Help me !!', value: 'CallforHelp', checked: false});
+    radioOptions.push({type: 'radio', label: '4. Fly Drone', value: 'FlyDrone', checked: false});
     
     const alert = await this.alertController.create({
       header: 'Select your request',
