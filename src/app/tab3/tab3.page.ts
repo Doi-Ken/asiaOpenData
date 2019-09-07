@@ -410,23 +410,23 @@ export class Tab3Page implements OnInit {
             if (data === 'SupportSupplies') {
               icon = new H.map.Icon('../../assets/marks/supplies.svg');
               this.addMarkersToMapWithIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
-              const imageURL = "../../assets/marks/supplies200.svg"
+              var imageURL = "../../assets/marks/supplies200.svg"
             } else if (data === 'CallforHelp') {
               icon = new H.map.Icon('../../assets/marks/help.svg');
               this.addMarkersToMapWithIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
-              const imageURL = "../../assets/marks/help200.svg"
+              var imageURL = "../../assets/marks/help200.svg"
             } else if (data === 'DangerousArea') {
-              icon = this.createDomIcon;
-              this.addMarkersToMapWithDomIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
-              const imageURL = "../../assets/marks/warning200.svg"
-            } else if (data === 'DangerousAreaDom') {
               icon = new H.map.Icon('../../assets/marks/warning.svg');
               this.addMarkersToMapWithIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
-              const imageURL = "../../assets/marks/warning200.svg"
+              var imageURL = "../../assets/marks/warning200.svg"
+            } else if (data === 'DangerousAreaDom') {
+              icon = this.createDomIcon;
+              this.addMarkersToMapWithDomIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
+              var imageURL = "../../assets/marks/warning200.svg"
             } else {
               icon = new H.map.Icon('../../assets/marks/droneC.svg');
               this.addMarkersToMapWithIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
-              const imageURL = "../../assets/marks/droneC400.svg"
+              var imageURL = "../../assets/marks/droneC400.svg"
             }
             swal({
               title: "Good job!",
