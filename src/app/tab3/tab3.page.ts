@@ -285,7 +285,15 @@ export class Tab3Page implements OnInit {
     // Define Return Grid Event
     function sendGrid() {
       console.log("★Grid: " + this.selectedLatitude + ", " + this.selectedLongitude)
-      alert(this.selectedLatitude + ", " + this.selectedLongitude)
+      // alert(this.selectedLatitude + ", " + this.selectedLongitude)
+
+      const imageURL = "../../assets/marks/supplies200.svg"
+      swal({
+        title: "Good job!",
+        text: "You clicked the button!",
+        icon: imageURL,
+        button: "Agree",
+      });
     }
 
     var outerElement = document.createElement('div'),
@@ -402,17 +410,26 @@ export class Tab3Page implements OnInit {
             if (data === 'SupportSupplies') {
               icon = new H.map.Icon('../../assets/marks/supplies.svg');
               this.addMarkersToMapWithIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
+              const imageURL = "../../assets/marks/supplies200.svg"
             } else if (data === 'CallforHelp') {
               icon = new H.map.Icon('../../assets/marks/help.svg');
               this.addMarkersToMapWithIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
+              const imageURL = "../../assets/marks/help200.svg"
             } else if (data === 'DangerousAreaDom') {
               icon = this.createDomIcon;
               this.addMarkersToMapWithDomIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
+              const imageURL = "../../assets/marks/warning200.svg"
             } else {
               icon = new H.map.Icon('../../assets/marks/warning.svg');
               this.addMarkersToMapWithIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
+              const imageURL = "../../assets/marks/warning200.svg"
             }
-            
+            swal({
+              title: "Good job!",
+              text: "You clicked the button!",
+              icon: imageURL,
+              button: "Agree",
+            });
           }
         }
       ]
