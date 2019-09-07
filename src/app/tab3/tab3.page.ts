@@ -157,6 +157,24 @@ export class Tab3Page implements OnInit {
     }
 
 
+    // user data dangerous Dom
+    for (let i = 0; i < 3; i++) {
+      latitude = Math.random() * (latitudeMax - latitudeMin ) + latitudeMin;
+      longitude = Math.random() * (longitudeMax - longitudeMin ) + longitudeMin;
+      this.userinputWebDto.userinputData.push(
+        new UserinputData(
+          i,
+          'DangerousAreaDom',
+          latitude,
+          longitude
+        )
+      );
+      this.officialinputWebDto.id++;
+      let domIcon = this.createDomIcon()
+      this.addMarkersToMapWithDomIcon(this.map, latitude, longitude, domIcon)
+    }
+
+
     // user data help
     for (let i = 0; i < 10; i++) {
       latitude = Math.random() * (latitudeMax - latitudeMin ) + latitudeMin;
@@ -175,7 +193,6 @@ export class Tab3Page implements OnInit {
     }
 
 
-
     // user data supplies
     for (let i = 0; i < 10; i++) {
       latitude = Math.random() * (latitudeMax - latitudeMin ) + latitudeMin;
@@ -192,7 +209,6 @@ export class Tab3Page implements OnInit {
       let icon = new H.map.Icon('../../assets/marks/supplies.svg');
       this.addMarkersToMapWithIcon(this.map, latitude, longitude, icon);
     }
-
 
 
     // test code (end)
@@ -265,7 +281,59 @@ export class Tab3Page implements OnInit {
   }
 
 
-  
+  createDomIcon() {
+    // Define Return Grid Event
+    function sendGrid() {
+      console.log("★Grid: " + this.selectedLatitude + ", " + this.selectedLongitude)
+      alert(this.selectedLatitude + ", " + this.selectedLongitude)
+    }
+
+    var outerElement = document.createElement('div'),
+          innerElement = document.createElement('div');
+    
+      outerElement.style.userSelect = 'none';
+      outerElement.style.webkitUserSelect = 'none';
+      outerElement.style.msUserSelect = 'none';
+      outerElement.style.msUserSelect = 'none';
+      outerElement.style.cursor = 'default';
+    
+      innerElement.style.color = 'red';
+      innerElement.style.backgroundColor = 'blue';
+      innerElement.style.border = '2px solid black';
+      innerElement.style.font = 'normal 12px arial';
+      innerElement.style.lineHeight = '12px'
+    
+      innerElement.style.paddingTop = '2px';
+      innerElement.style.paddingLeft = '4px';
+      innerElement.style.width = '20px';
+      innerElement.style.height = '20px';
+    
+      // add negative margin to inner element
+      // to move the anchor to center of the div
+      innerElement.style.marginTop = '-10px';
+      innerElement.style.marginLeft = '-10px';
+    
+      outerElement.appendChild(innerElement);
+    
+      // Add text to the DOM element
+      innerElement.innerHTML = 'D';
+
+      var domIcon = new H.map.DomIcon(outerElement, {
+        // the function is called every time marker enters the viewport
+        onAttach: function(clonedElement, domIcon, domMarker) {
+          clonedElement.addEventListener('mouseover', sendGrid);
+          clonedElement.addEventListener('mouseout', sendGrid);
+        },
+        // the function is called every time marker leaves the viewport
+        onDetach: function(clonedElement, domIcon, domMarker) {
+          clonedElement.removeEventListener('mouseover', sendGrid);
+          clonedElement.removeEventListener('mouseout', sendGrid);
+        }
+      });
+      return domIcon
+  }
+
+
   addMarkersToMap(map, latitude, longitude) {
     var placeMarker = new H.map.Marker({lat: latitude, lng: longitude});
     map.addObject(placeMarker);
@@ -275,14 +343,22 @@ export class Tab3Page implements OnInit {
     var placeMarker = new H.map.Marker({lat: latitude, lng: longitude}, { icon: icontype });
     map.addObject(placeMarker);
   }
+  addMarkersToMapWithDomIcon(map, latitude, longitude, icontype) {
+    // Marker for Chicago Bears home
+    var placeMarker = new H.map.DomMarker({lat: latitude, lng: longitude}, { icon: icontype });
+    map.addObject(placeMarker);
+  }
 
 
   async presentAlertPrompt() {
     let radioOptions = [];
     
     radioOptions.push({type: 'radio', label: '1. Dangerous Area', value: 'DangerousArea', checked: true});
+    radioOptions.push({type: 'radio', label: '1.5. Dangerous Area with Image', value: 'DangerousAreaDom', checked: false});
     radioOptions.push({type: 'radio', label: '2. Suport Supplies', value: 'SupportSupplies', checked: false});
     radioOptions.push({type: 'radio', label: '3. Help me !!', value: 'CallforHelp', checked: false});
+    radioOptions.push({type: 'radio', label: '4. Fly Drone', value: 'FlyDrone', checked: false});
+    
     
     const alert = await this.alertController.create({
       header: 'Select your request',
@@ -325,12 +401,18 @@ export class Tab3Page implements OnInit {
             let icon;
             if (data === 'SupportSupplies') {
               icon = new H.map.Icon('../../assets/marks/supplies.svg');
+              this.addMarkersToMapWithIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
             } else if (data === 'CallforHelp') {
               icon = new H.map.Icon('../../assets/marks/help.svg');
+              this.addMarkersToMapWithIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
+            } else if (data === 'DangerousAreaDom') {
+              icon = this.createDomIcon;
+              this.addMarkersToMapWithDomIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
             } else {
               icon = new H.map.Icon('../../assets/marks/warning.svg');
+              this.addMarkersToMapWithIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
             }
-            this.addMarkersToMapWithIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
+            
           }
         }
       ]
