@@ -8,7 +8,7 @@ import { UserinputWebDTO } from '../service/userinputService/userinput.webdto';
 import { OfficialinputWebDTO } from '../service/officialinputService/officialinput.webdto';
 import { UserinputData} from '../dto/userinput.data';
 import { OfficialinputData } from '../dto/officialinput.data';
-
+declare var swal: any;
 
 
 declare var H: any;
@@ -420,7 +420,7 @@ export class Tab3Page implements OnInit {
               this.addMarkersToMapWithIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
               var imageURL = "../../assets/marks/warning200.svg"
             } else if (data === 'DangerousAreaDom') {
-              icon = this.createDomIcon;
+              icon = this.createDomIcon();
               this.addMarkersToMapWithDomIcon(this.map, parseFloat(this.selectedLatitude), parseFloat(this.selectedLongitude), icon);
               var imageURL = "../../assets/marks/warning200.svg"
             } else {
